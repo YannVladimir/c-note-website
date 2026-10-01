@@ -44,3 +44,7 @@ dist-ssr
 /tekafrika-logo.webp
 /download.jpg
 /Web-content.pdf
+
+# Lovable.dev local tool config
+.lovable/
+
