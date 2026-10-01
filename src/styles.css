@@ -1,0 +1,182 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", "Söhne", system-ui, sans-serif;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-sage: var(--sage);
+  --color-sky: var(--sky);
+  --color-beige: var(--beige);
+  --color-ink: var(--ink);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 8s linear infinite;
+}
+
+:root {
+  --radius: 1rem;
+  /* Clean ice-slate background */
+  --background: oklch(0.99 0.003 240);
+  --foreground: oklch(0.14 0.04 240);
+  --ink: oklch(0.10 0.04 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.14 0.04 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.14 0.04 240);
+  --primary: oklch(0.55 0.19 240); /* Vibrant brand blue from logo */
+  --primary-foreground: oklch(0.99 0.003 240);
+  --secondary: oklch(0.96 0.012 240); /* Cool ice blue-grey */
+  --secondary-foreground: oklch(0.55 0.19 240);
+  --muted: oklch(0.95 0.008 240);
+  --muted-foreground: oklch(0.45 0.03 240);
+  --accent: oklch(0.93 0.02 240); /* Soft ice accent */
+  --accent-foreground: oklch(0.55 0.19 240);
+  --beige: oklch(0.95 0.015 240);
+  --gold: oklch(0.55 0.19 240); /* Mapped to brand blue to naturally replace gold highlights */
+  --sage: oklch(0.62 0.06 160); /* crisp sage */
+  --sky: oklch(0.72 0.12 240); /* premium soft sky */
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.92 0.015 240);
+  --input: oklch(0.92 0.015 240);
+  --ring: oklch(0.55 0.19 240);
+}
+
+.dark {
+  --background: oklch(0.14 0.025 250);
+  --foreground: oklch(0.97 0.005 80);
+  --card: oklch(0.18 0.03 250);
+  --card-foreground: oklch(0.97 0.005 80);
+  --popover: oklch(0.18 0.03 250);
+  --popover-foreground: oklch(0.97 0.005 80);
+  --primary: oklch(0.97 0.005 80);
+  --primary-foreground: oklch(0.18 0.03 250);
+  --secondary: oklch(0.24 0.03 250);
+  --secondary-foreground: oklch(0.97 0.005 80);
+  --muted: oklch(0.22 0.03 250);
+  --muted-foreground: oklch(0.7 0.02 250);
+  --accent: oklch(0.26 0.04 250);
+  --accent-foreground: oklch(0.97 0.005 80);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+}
+
+@layer base {
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap");
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-sans { font-family: var(--font-sans); }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .glass {
+    background: color-mix(in oklab, white 70%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid color-mix(in oklab, white 50%, transparent);
+  }
+  .glass-dark {
+    background: color-mix(in oklab, var(--ink) 60%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid color-mix(in oklab, white 10%, transparent);
+  }
+
+  .gradient-hero {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--gold) 22%, transparent), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, color-mix(in oklab, var(--sky) 22%, transparent), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, color-mix(in oklab, var(--sage) 18%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--background), var(--background));
+  }
+
+  .gradient-ink {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--primary) 100%);
+  }
+
+  .gold-underline {
+    background-image: linear-gradient(var(--gold), var(--gold));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    padding-bottom: 2px;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 30%, transparent), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+}

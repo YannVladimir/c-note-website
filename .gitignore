@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Stray/junk files not part of the project (root-only, keeps src/assets & public copies tracked)
+/node_modules.zip
+/bika_main.js
+/*.crdownload
+/cnote-logo.png
+/cnote-logo.webp
+/cnote-ico.png
+/logo-cnote.png
+/florafirica-ltd-logo.png
+/symposia-consult-logo.jpg
+/tekafrika-logo.webp
+/download.jpg
+/Web-content.pdf
