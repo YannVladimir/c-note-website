@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 
 const variants: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -17,7 +17,7 @@ export function Reveal({
   className?: string;
   as?: "div" | "section" | "span" | "h1" | "h2" | "p";
 }) {
-  const Comp: any = motion[as];
+  const Comp = motion[as] as ElementType;
   return (
     <Comp
       className={className}

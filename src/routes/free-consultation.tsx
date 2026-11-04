@@ -3,14 +3,23 @@ import { Layout } from "@/components/site/Layout";
 import { Reveal } from "@/components/site/Reveal";
 import { useState } from "react";
 import { ArrowRight, Check, Calendar, Clock, Shield } from "lucide-react";
+import { submitLead } from "@/lib/submitLead";
 
 export const Route = createFileRoute("/free-consultation")({
   head: () => ({
     meta: [
       { title: "Book a free consultation — C-Note" },
-      { name: "description", content: "Tell us about your space, your team, or your archive. We'll listen, look, and quote — at no cost." },
+      {
+        name: "description",
+        content:
+          "Tell us about your space, your team, or your archive. We'll listen, look, and quote — at no cost.",
+      },
       { property: "og:title", content: "Free Consultation — C-Note" },
-      { property: "og:description", content: "A free, no-pressure conversation about your organizing, moving or Bika DMS needs." },
+      {
+        property: "og:description",
+        content:
+          "A free, no-pressure conversation about your organizing, moving or Bika DMS needs.",
+      },
       { property: "og:url", content: "/free-consultation" },
     ],
     links: [{ rel: "canonical", href: "/free-consultation" }],
@@ -18,35 +27,41 @@ export const Route = createFileRoute("/free-consultation")({
   component: ConsultPage,
 });
 
-const services = ["Office Organizing", "Home Organizing", "Individual Organizing", "IT for Organizing", "Home Moving", "Office Moving", "Bika DMS"];
+const services = [
+  "Office Organizing",
+  "Home Organizing",
+  "Individual Organizing",
+  "IT for Organizing",
+  "Home Moving",
+  "Office Moving",
+  "Bika DMS",
+];
 
 function ConsultPage() {
   const [picked, setPicked] = useState<string[]>([]);
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const toggle = (s: string) => setPicked((p) => (p.includes(s) ? p.filter((x) => x !== s) : [...p, s]));
+  const [submitError, setSubmitError] = useState(false);
+  const toggle = (s: string) =>
+    setPicked((p) => (p.includes(s) ? p.filter((x) => x !== s) : [...p, s]));
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(false);
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     data.services = picked.join(", ");
-    
+
     try {
-      await fetch("https://formsubmit.co/ajax/contact@c-note.rw", {
-        method: "POST",
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+      await submitLead(data);
+      setSent(true);
     } catch (error) {
       console.error(error);
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
-    setSent(true);
   };
 
   return (
@@ -55,13 +70,16 @@ function ConsultPage() {
         <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-12 items-end">
           <Reveal>
             <div>
-              <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Free consultation</div>
+              <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                Free consultation
+              </div>
               <h1 className="mt-5 text-5xl md:text-6xl text-balance leading-[1.05]">
-                A free <em className="italic text-gold">conversation</em> — no pressure, no obligation.
+                A free <em className="italic text-gold">conversation</em> — no pressure, no
+                obligation.
               </h1>
               <p className="mt-7 max-w-xl text-lg text-muted-foreground leading-relaxed">
-                Tell us a little about what's on your plate. We'll come look, listen,
-                and quote — at no cost.
+                Tell us a little about what's on your plate. We'll come look, listen, and quote — at
+                no cost.
               </p>
             </div>
           </Reveal>
@@ -101,7 +119,9 @@ function ConsultPage() {
                       key={s}
                       onClick={() => toggle(s)}
                       className={`rounded-full px-4 py-2.5 text-xs transition-all border ${
-                        on ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border hover:border-gold/50"
+                        on
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-background border-border hover:border-gold/50"
                       }`}
                     >
                       {on && <Check className="inline h-3 w-3 mr-1" />}
@@ -111,7 +131,9 @@ function ConsultPage() {
                 })}
               </div>
 
-              <div className="mt-10 text-xs uppercase tracking-widest text-muted-foreground">Step 2</div>
+              <div className="mt-10 text-xs uppercase tracking-widest text-muted-foreground">
+                Step 2
+              </div>
               <div className="font-display text-2xl mt-2">Tell us about you</div>
               <div className="mt-5 grid sm:grid-cols-2 gap-4">
                 {[
@@ -120,8 +142,14 @@ function ConsultPage() {
                   { l: "Phone / WhatsApp", n: "phone" },
                   { l: "Company (optional)", n: "company" },
                 ].map((f) => (
-                  <input key={f.n} name={f.n} required={f.n !== "company"} type={f.type ?? "text"} placeholder={f.l}
-                    className="rounded-xl border border-border bg-background px-4 py-3.5 text-sm outline-none focus:border-gold/60" />
+                  <input
+                    key={f.n}
+                    name={f.n}
+                    required={f.n !== "company"}
+                    type={f.type ?? "text"}
+                    placeholder={f.l}
+                    className="rounded-xl border border-border bg-background px-4 py-3.5 text-sm outline-none focus:border-gold/60"
+                  />
                 ))}
               </div>
 
@@ -139,19 +167,39 @@ function ConsultPage() {
                 disabled={isSubmitting}
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-primary-foreground text-sm hover:bg-ink disabled:opacity-70"
               >
-                {sent ? <><Check className="h-4 w-4" /> Thank you — we'll be in touch shortly</> : isSubmitting ? <>Sending...</> : <>Request my free consultation <ArrowRight className="h-4 w-4" /></>}
+                {sent ? (
+                  <>
+                    <Check className="h-4 w-4" /> Thank you — we'll be in touch shortly
+                  </>
+                ) : isSubmitting ? (
+                  <>Sending...</>
+                ) : (
+                  <>
+                    Request my free consultation <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
               </button>
 
+              {submitError && (
+                <p role="alert" className="mt-4 text-sm text-destructive">
+                  Something went wrong sending your request. Please try again, or email us directly
+                  at contact@c-note.rw.
+                </p>
+              )}
+
               <p className="mt-4 text-xs text-muted-foreground">
-                By submitting, you agree to be contacted about your request.
-                We never share your details.
+                By submitting, you agree to be contacted about your request. We never share your
+                details.
               </p>
             </form>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="mt-10 text-center text-sm text-muted-foreground">
-              Prefer to talk now? <Link to="/contact" className="gold-underline text-foreground">Reach us directly →</Link>
+              Prefer to talk now?{" "}
+              <Link to="/contact" className="gold-underline text-foreground">
+                Reach us directly →
+              </Link>
             </div>
           </Reveal>
         </div>

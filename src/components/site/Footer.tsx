@@ -14,8 +14,8 @@ export function Footer() {
             <span className="font-display text-xl tracking-tight">C-Note Ltd</span>
           </div>
           <p className="mt-5 text-primary-foreground/70 max-w-md font-sans text-sm leading-relaxed">
-            We bring order to your world — carefully, completely, and on time.
-            Professional organizing, moving, and document management in Rwanda.
+            We bring order to your world — carefully, completely, and on time. Professional
+            organizing, moving, and document management in Rwanda.
           </p>
           <div className="mt-6 flex flex-col gap-3 text-sm text-primary-foreground/80">
             <span className="inline-flex items-center gap-2.5">
@@ -79,11 +79,31 @@ export function Footer() {
         <div>
           <h4 className="font-display text-base text-gold mb-4">Explore</h4>
           <ul className="space-y-2.5 text-sm text-primary-foreground/70">
-            <li><Link to="/about" className="hover:text-gold transition-colors">About Us</Link></li>
-            <li><Link to="/services" className="hover:text-gold transition-colors">Services</Link></li>
-            <li><Link to="/bika-dms" className="hover:text-gold transition-colors">Bika DMS</Link></li>
-            <li><Link to="/faq" className="hover:text-gold transition-colors">FAQ</Link></li>
-            <li><Link to="/contact" className="hover:text-gold transition-colors">Contact</Link></li>
+            <li>
+              <Link to="/about" className="hover:text-gold transition-colors">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/services" className="hover:text-gold transition-colors">
+                Services
+              </Link>
+            </li>
+            <li>
+              <Link to="/bika-dms" className="hover:text-gold transition-colors">
+                Bika DMS
+              </Link>
+            </li>
+            <li>
+              <Link to="/faq" className="hover:text-gold transition-colors">
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-gold transition-colors">
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

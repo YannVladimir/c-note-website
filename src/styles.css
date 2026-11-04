@@ -45,7 +45,7 @@
   /* Clean ice-slate background */
   --background: oklch(0.99 0.003 240);
   --foreground: oklch(0.14 0.04 240);
-  --ink: oklch(0.10 0.04 240);
+  --ink: oklch(0.1 0.04 240);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.14 0.04 240);
   --popover: oklch(1 0 0);
@@ -108,7 +108,11 @@
     font-feature-settings: "ss01", "cv11";
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
@@ -116,11 +120,19 @@
 }
 
 @layer utilities {
-  .font-display { font-family: var(--font-display); }
-  .font-sans { font-family: var(--font-sans); }
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-sans {
+    font-family: var(--font-sans);
+  }
 
-  .text-balance { text-wrap: balance; }
-  .text-pretty { text-wrap: pretty; }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
 
   .glass {
     background: color-mix(in oklab, white 70%, transparent);
@@ -137,9 +149,21 @@
 
   .gradient-hero {
     background:
-      radial-gradient(1200px 600px at 80% -10%, color-mix(in oklab, var(--gold) 22%, transparent), transparent 60%),
-      radial-gradient(900px 500px at -10% 30%, color-mix(in oklab, var(--sky) 22%, transparent), transparent 60%),
-      radial-gradient(800px 600px at 50% 110%, color-mix(in oklab, var(--sage) 18%, transparent), transparent 60%),
+      radial-gradient(
+        1200px 600px at 80% -10%,
+        color-mix(in oklab, var(--gold) 22%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        900px 500px at -10% 30%,
+        color-mix(in oklab, var(--sky) 22%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        800px 600px at 50% 110%,
+        color-mix(in oklab, var(--sage) 18%, transparent),
+        transparent 60%
+      ),
       linear-gradient(180deg, var(--background), var(--background));
   }
 
@@ -166,16 +190,30 @@
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-12px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
   }
   @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
 
   .shimmer {
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold) 30%, transparent), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 30%, transparent),
+      transparent
+    );
     background-size: 200% 100%;
     animation: shimmer 3s linear infinite;
   }
