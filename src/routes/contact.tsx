@@ -3,14 +3,21 @@ import { Layout } from "@/components/site/Layout";
 import { Reveal } from "@/components/site/Reveal";
 import { useState } from "react";
 import { Mail, Phone, MapPin, MessageCircle, Send, Check } from "lucide-react";
+import { submitLead } from "@/lib/submitLead";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact C-Note" },
-      { name: "description", content: "Call, email or WhatsApp C-Note. We respond within one business day, always." },
+      {
+        name: "description",
+        content: "Call, email or WhatsApp C-Note. We respond within one business day, always.",
+      },
       { property: "og:title", content: "Contact C-Note" },
-      { property: "og:description", content: "Reach our team — by form, phone, email or WhatsApp." },
+      {
+        property: "og:description",
+        content: "Reach our team — by form, phone, email or WhatsApp.",
+      },
       { property: "og:url", content: "/contact" },
     ],
     links: [{ rel: "canonical", href: "/contact" }],
@@ -26,24 +33,21 @@ function ContactPage() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(false);
     try {
-      await fetch("https://formsubmit.co/ajax/contact@c-note.rw", {
-        method: "POST",
-        headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ name, email, phone, service, message })
-      });
+      await submitLead({ name, email, phone, service, message });
+      setSent(true);
     } catch (error) {
       console.error(error);
+      setSubmitError(true);
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
-    setSent(true);
   };
 
   return (
@@ -51,12 +55,16 @@ function ContactPage() {
       <section className="gradient-hero grain pt-40 pb-20">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
-            <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Contact us</div>
+            <div className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+              Contact us
+            </div>
             <h1 className="mt-5 text-5xl md:text-7xl max-w-4xl text-balance leading-[1.05]">
               Let's start with a <em className="italic text-gold">conversation</em>.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-3xl leading-relaxed">
-              Do you have a question or ready to experience the difference organization can make? We would love to hear from you. Reach out and we will get back to you within 24 hours latest.
+              Do you have a question or ready to experience the difference organization can make? We
+              would love to hear from you. Reach out and we will get back to you within 24 hours
+              latest.
             </p>
           </Reveal>
         </div>
@@ -72,11 +80,20 @@ function ContactPage() {
                 { i: MessageCircle, t: "WhatsApp", d: "+250 726 868 905" },
                 { i: MapPin, t: "Address", d: "Kigali - Rwanda" },
               ].map((c) => (
-                <div key={c.t} className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 hover:border-gold/40 transition-colors shadow-sm">
-                  <div className="h-11 w-11 rounded-xl bg-accent grid place-items-center"><c.i className="h-5 w-5 text-primary" /></div>
+                <div
+                  key={c.t}
+                  className="flex items-start gap-4 rounded-3xl border border-border bg-card p-6 hover:border-gold/40 transition-colors shadow-sm"
+                >
+                  <div className="h-11 w-11 rounded-xl bg-accent grid place-items-center">
+                    <c.i className="h-5 w-5 text-primary" />
+                  </div>
                   <div>
-                    <div className="text-xs uppercase tracking-widest text-muted-foreground">{c.t}</div>
-                    <div className="mt-1 font-display text-base text-foreground leading-normal">{c.d}</div>
+                    <div className="text-xs uppercase tracking-widest text-muted-foreground">
+                      {c.t}
+                    </div>
+                    <div className="mt-1 font-display text-base text-foreground leading-normal">
+                      {c.d}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -98,7 +115,8 @@ function ContactPage() {
                 </div>
                 <h3 className="font-display text-2xl mb-4 text-foreground">Message Sent!</h3>
                 <p className="text-muted-foreground leading-relaxed max-w-md">
-                  Thank you! We have received your message and will be in touch within 24 hours latest. We look forward to helping you become more organised!
+                  Thank you! We have received your message and will be in touch within 24 hours
+                  latest. We look forward to helping you become more organised!
                 </p>
                 <button
                   onClick={() => {
@@ -121,7 +139,9 @@ function ContactPage() {
               >
                 <div>
                   <h3 className="font-display text-2xl">Send us a message</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">Fields marked with * are required.</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    Fields marked with * are required.
+                  </p>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-6">
@@ -134,7 +154,9 @@ function ContactPage() {
                       onChange={(e) => setName(e.target.value)}
                       className="peer w-full rounded-xl border border-border bg-background px-4 pt-6 pb-3 text-sm outline-none focus:border-gold/60"
                     />
-                    <span className={`pointer-events-none absolute left-4 transition-all ${name.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}>
+                    <span
+                      className={`pointer-events-none absolute left-4 transition-all ${name.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}
+                    >
                       Full Name *
                     </span>
                   </label>
@@ -148,7 +170,9 @@ function ContactPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       className="peer w-full rounded-xl border border-border bg-background px-4 pt-6 pb-3 text-sm outline-none focus:border-gold/60"
                     />
-                    <span className={`pointer-events-none absolute left-4 transition-all ${email.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}>
+                    <span
+                      className={`pointer-events-none absolute left-4 transition-all ${email.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}
+                    >
                       Email Address *
                     </span>
                   </label>
@@ -163,7 +187,9 @@ function ContactPage() {
                       onChange={(e) => setPhone(e.target.value)}
                       className="peer w-full rounded-xl border border-border bg-background px-4 pt-6 pb-3 text-sm outline-none focus:border-gold/60"
                     />
-                    <span className={`pointer-events-none absolute left-4 transition-all ${phone.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}>
+                    <span
+                      className={`pointer-events-none absolute left-4 transition-all ${phone.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}
+                    >
                       Phone Number
                     </span>
                   </label>
@@ -184,8 +210,13 @@ function ContactPage() {
                       <option value="Home Moving">Home Moving</option>
                       <option value="Not Sure">Not Sure</option>
                     </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground text-xs">▼</div>
-                    <label htmlFor="serviceInterest" className="absolute left-4 -top-2.5 bg-card px-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground text-xs">
+                      ▼
+                    </div>
+                    <label
+                      htmlFor="serviceInterest"
+                      className="absolute left-4 -top-2.5 bg-card px-1.5 text-[10px] uppercase tracking-widest text-muted-foreground"
+                    >
                       Service of Interest
                     </label>
                   </div>
@@ -201,11 +232,20 @@ function ContactPage() {
                       rows={5}
                       className="peer w-full rounded-xl border border-border bg-background px-4 pt-6 pb-3 text-sm outline-none focus:border-gold/60 resize-none"
                     />
-                    <span className={`pointer-events-none absolute left-4 transition-all ${message.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}>
+                    <span
+                      className={`pointer-events-none absolute left-4 transition-all ${message.length > 0 ? "top-1.5 text-[10px] uppercase tracking-widest text-muted-foreground" : "top-4 text-sm text-muted-foreground"} peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-widest`}
+                    >
                       Message *
                     </span>
                   </label>
                 </div>
+
+                {submitError && (
+                  <p role="alert" className="text-sm text-destructive">
+                    Something went wrong sending your message. Please try again, or email us
+                    directly at contact@c-note.rw.
+                  </p>
+                )}
 
                 <div className="pt-4">
                   <button
@@ -213,7 +253,13 @@ function ContactPage() {
                     disabled={isSubmitting}
                     className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary py-4 px-8 text-primary-foreground font-semibold text-sm hover:bg-ink transition-all hover:shadow-lg disabled:opacity-70"
                   >
-                    {isSubmitting ? "Sending..." : <>Send My Message <Send className="h-4 w-4" /></>}
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        Send My Message <Send className="h-4 w-4" />
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

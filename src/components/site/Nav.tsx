@@ -36,17 +36,15 @@ export function Nav() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div
           className={`flex items-center justify-between rounded-full transition-all duration-500 ${
-            scrolled
-              ? "glass px-4 py-2 shadow-[0_8px_40px_-12px_rgba(20,30,60,0.12)]"
-              : "px-2 py-2"
+            scrolled ? "glass px-4 py-2 shadow-[0_8px_40px_-12px_rgba(20,30,60,0.12)]" : "px-2 py-2"
           }`}
         >
           <Link to="/" className="flex items-center pl-2">
-            <img 
-              src={cnoteLogo} 
-              alt="C-Note Logo" 
-              className="h-14 w-auto object-contain transition-all hover:scale-[1.02]" 
-              style={{ mixBlendMode: "multiply" }} 
+            <img
+              src={cnoteLogo}
+              alt="C-Note Logo"
+              className="h-14 w-auto object-contain transition-all hover:scale-[1.02]"
+              style={{ mixBlendMode: "multiply" }}
             />
           </Link>
 
